@@ -1,0 +1,23 @@
+{
+  "name": "@zesun33/hw-agent-skills",
+  "version": "0.1.0",
+  "description": "Portable agent skills and rubrics for hardware engineering and ML systems",
+  "scripts": {
+    "validate": "python3 scripts/validate_skills.py",
+    "export": "python3 scripts/export_cursor_rules.py",
+    "test": "python3 -m unittest discover tests",
+    "verify": "bash scripts/verify.sh"
+  },
+  "keywords": [
+    "antigravity",
+    "cursor",
+    "claude-code",
+    "skills",
+    "verilog",
+    "hardware-engineering",
+    "eda",
+    "roofline"
+  ],
+  "author": "Md Zesun Ahmed Mia",
+  "license": "Apache-2.0"
+}
