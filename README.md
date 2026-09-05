@@ -3,10 +3,10 @@
 > Portable AI agent skills, rubrics, and system prompts for digital hardware design and ML systems engineering.
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
-[![Platform: Antigravity | Cursor | Claude](https://img.shields.io/badge/platforms-Antigravity%20%7C%20Cursor%20%7C%20Claude-blueviolet)](#quickstart)
+[![Platform: Universal AI IDEs](https://img.shields.io/badge/platforms-Cursor%20%7C%20Windsurf%20%7C%20Copilot%20%7C%20Claude-blueviolet)](#quickstart)
 [![Skills: 5 Core](https://img.shields.io/badge/skills-5%20verified-brightgreen)](#the-skills-pack)
 
-`hw-agent-skills` gives coding agents (Claude Code, Cursor, Antigravity, OpenCode, Codex) the **cognitive engineering rubrics** needed to reason about register-transfer level (RTL) semantics, race conditions, self-checking verification testbenches, logic synthesis metrics, and GPU kernel roofline limits.
+`hw-agent-skills` gives coding agents and AI IDEs (**Cursor**, **Windsurf**, **GitHub Copilot / OpenAI Codex**, **Claude Code**, **Google Antigravity**, **OpenCode**, **Cline**) the **cognitive engineering rubrics** needed to reason about register-transfer level (RTL) semantics, race conditions, self-checking verification testbenches, logic synthesis metrics, and GPU kernel roofline limits.
 
 ---
 
@@ -34,7 +34,7 @@
 
 ---
 
-## Quickstart
+## Quickstart & IDE Setup
 
 ### 1. Cursor IDE
 This repo automatically exports its skills into Cursor's native `.cursor/rules/*.mdc` format:
@@ -43,14 +43,23 @@ python3 scripts/export_cursor_rules.py
 ```
 Rules are placed in `.cursor/rules/` and automatically apply to relevant files (e.g. `*.v`, `*.sv`, `*.cu`, `*.tcl`).
 
-### 2. Antigravity IDE & 2.0
+### 2. GitHub Copilot & OpenAI Codex (VS Code)
+Include the rubrics in `.github/copilot-instructions.md` or reference the skill files in your prompt:
+```bash
+cat skills/rtl-reviewer/SKILL.md >> .github/copilot-instructions.md
+```
+
+### 3. Windsurf (Codeium)
+Add relevant skill rubrics directly into `.windsurfrules` in your workspace root.
+
+### 4. Google Antigravity IDE & 2.0
 Symlink or copy the `skills/` directory into your project's `.agents/skills/`:
 ```bash
 mkdir -p .agents/skills
 cp -r skills/* .agents/skills/
 ```
 
-### 3. Claude Code / CLI
+### 5. Claude Code / OpenCode / CLI
 Pass the relevant `SKILL.md` directly into your system prompt or reference it via `@skills/<name>/SKILL.md`.
 
 ---
