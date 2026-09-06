@@ -19,7 +19,7 @@
 | Uses blocking `=` in sequential blocks, creating simulation race conditions | Enforces strict assignment discipline: `<=` for sequential, `=` for combinational |
 | Leaves `if`/`case` branches unassigned, silently inferring transparent latches | Flags incomplete branch coverage before synthesis |
 | Generates visual-inspection testbenches that require human waveform viewing | Generates self-checking assertion suites with `$fatal` and timeout guards |
-| Guesses performance bottlenecks in CUDA/Triton kernels | Mathematically calculates Operational Arithmetic Intensity ($I = \text{FLOPs}/\text{Byte}$) |
+| Guesses performance bottlenecks in CUDA/Triton kernels | Mathematically calculates Operational Arithmetic Intensity (I = FLOPs / Byte) |
 
 ---
 
