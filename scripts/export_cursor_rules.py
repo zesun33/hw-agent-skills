@@ -44,6 +44,8 @@ alwaysApply: false
 """
 
     out_file = out_dir / f"{name}.mdc"
+    if out_file.exists() and out_file.read_text(encoding="utf-8") == mdc_content:
+        return out_file
     out_file.write_text(mdc_content, encoding="utf-8")
     return out_file
 
