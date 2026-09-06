@@ -3,6 +3,7 @@
 > Portable AI agent skills, rubrics, and system prompts for digital hardware design and ML systems engineering.
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
+[![CI](https://github.com/zesun33/hw-agent-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/zesun33/hw-agent-skills/actions/workflows/ci.yml)
 [![Platform: Universal AI IDEs](https://img.shields.io/badge/platforms-Cursor%20%7C%20Windsurf%20%7C%20Copilot%20%7C%20Claude-blueviolet)](#quickstart)
 [![Skills: 5 Core](https://img.shields.io/badge/skills-5%20verified-brightgreen)](#the-skills-pack)
 
@@ -66,7 +67,13 @@ Pass the relevant `SKILL.md` directly into your system prompt or reference it vi
 
 ## Verification
 
-Run the full verification suite (schema validation, unit tests, rule sync, and doc check):
+Run the full 5-gate verification suite (spec lock, schema validation, unit tests, Cursor rule sync, and doc check):
 ```bash
 ./scripts/verify.sh
+```
+
+To run a specific gate:
+```bash
+./scripts/verify.sh --gate 2   # Schema & frontmatter validation
+./scripts/verify.sh --gate 3   # Unit tests
 ```
