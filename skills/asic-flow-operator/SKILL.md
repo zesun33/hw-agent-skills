@@ -17,7 +17,7 @@ This skill guides coding agents through navigating and automating open-source di
        ▼  Step 0: Formal lint + prove (SymbiYosys smtbmc+z3, -DFORMAL)
 [PROVEN properties]
        │
-       ▼  Step 1: Synthesis (Yosys, liberty-mapped nangate45 for P&R)
+       ▼  Step 1: Synthesis (Yosys; nangate45 bundled, or sky130 via MCP_YOSYS_PDK_ROOT)
 [Gate-level Netlist without operator expressions or port redeclarations]
        │
        ▼  Step 2: Floorplanning & IO Placement (OpenROAD / init_floorplan)
@@ -26,7 +26,7 @@ This skill guides coding agents through navigating and automating open-source di
        ▼  Step 3: Global & Detailed Placement (OpenROAD / global_placement)
 [Placed Standard Cells]
        │
-       ▼  Step 4: Clock Tree Synthesis (OpenROAD / repair_clock_inverters)
+       ▼  Step 4: Clock Tree Synthesis (OpenROAD / clock_tree_synthesis; sky130 clkbuf_16/8/4)
 [Balanced Low-Skew Clock Tree]
        │
        ▼  Step 5: Global & Detailed Routing (OpenROAD / global_route, triton_route)
@@ -43,7 +43,7 @@ This skill guides coding agents through navigating and automating open-source di
 ### Stage 1: Floorplanning (`init_floorplan`)
 - **Core Utilization**: Set initial target utilization to `35% - 55%`. Setting utilization $> 65\%$ on standard cells frequently causes unroutable congestion during detailed routing.
 - **Aspect Ratio**: Keep core aspect ratio near 1.0 (square) unless pin density constraints dictate a rectangular floorplan.
-- **Power Distribution Network (PDN)**: Ensure standard cell power rails (`VPWR`/`VGND`) connect reliably to top-level metal power stripes without creating DRC notch violations.
+- **Power Distribution Network (PDN)**: Insert the stdcell grid (Sky130: `VPWR`/`VGND` followpins + met4/met5 straps) **after floorplan/tap and before place** so GPL sees straps. Post-place PDN + inferred `clkbuf_1` is DRT-0073 (zero signal wires).
 
 ### Stage 2: Placement
 - **Global Placement (`gpl`)**: Monitor target density. If wirelength is excessive, inspect macro placement and pin constraints.
@@ -51,7 +51,7 @@ This skill guides coding agents through navigating and automating open-source di
 
 ### Stage 3: Clock Tree Synthesis (CTS)
 - **Goal**: Minimize clock skew and insertion delay across all flip-flops.
-- Verify that clock buffers (`clkbuf_*`) are selected from balanced drive-strength cells.
+- On Sky130, use explicit clock buffers (`sky130_fd_sc_hd__clkbuf_16/8/4`), then `detailed_placement` to legalize. Bare `clock_tree_synthesis` infers unroutable `clkbuf_1`.
 - If hold violations surge after CTS, verify that clock latency across distant registers is balanced.
 
 ### Stage 4: Routing & DRC/LVS Signoff
@@ -68,7 +68,9 @@ This skill guides coding agents through navigating and automating open-source di
 | **Setup Violation ($WNS < 0$)** | Data path too slow for target clock period | 1. Upsize driving cells along critical path.<br>2. Buffer long wire segments.<br>3. Move cells closer together in placement.<br>4. Pipeline RTL. |
 | **Hold Violation ($Hold\ Slack < 0$)** | Data path faster than clock skew | Insert delay buffers (`clkbuf` or paired inverters) on short data paths. |
 | **Vacuous P&R pass (no DEF written)** | Netlist never linked (e.g. STA-0164) yet exit stayed 0 | Treat missing/empty DEF as failure; fix the netlist or liberty mapping, never the metrics parser. |
-| **Generic target + P&R requested** | Operator expressions unreadable downstream | Fail fast: re-synthesize with `nangate45` (or supply a liberty) instead of running a vacuous flow. |
+| **0 signal wires after detail_route** | DRT-0073 pin-access (CTS bufs under PDN, or PDN after place) | PDN/taps before place; CTS with clkbuf_16/8/4; fail the stage — do not treat as a timing miss. |
+| **Self-heal retries identical WNS** | SDC `create_clock -period` ignored the healed CLI period | Rewrite the staged SDC period on each attempt. |
+| **Generic target + P&R requested** | Operator expressions unreadable downstream | Fail fast: re-synthesize with `nangate45` or `sky130` (PDK env) instead of running a vacuous flow. |
 | **Routing Congestion** | Too many wires competing for routing tracks | Reduce floorplan target utilization or increase die area. |
 | **Antenna Violation** | Long metal wire accumulates charge during fabrication | Insert antenna diodes near input gates. |
 
@@ -80,7 +82,8 @@ This skill guides coding agents through navigating and automating open-source di
 - [ ] Did CTS balance clock skew to $< 5\%$ of clock period?
 - [ ] Is detailed routing complete with 0 open nets and 0 shorts?
 - [ ] Does static timing analysis report $WNS \ge 0$ and $TNS = 0$?
-- [ ] Has DRC and LVS passed with zero violations (naming the deck/setup that produced the verdict)?
+- [ ] Has DRC and LVS been reported honestly (foundry DRC notes like `li.6` on LEF-abstract pins may warn; Sky130 LVS match is the hard check)?
 - [ ] Were FORMAL-guarded asserts proven (not merely linted) before signoff?
 - [ ] Is the P&R input netlist liberty-mapped (not bare generic)?
+- [ ] For Sky130 `detail_route`: did signal nets actually route (not 0 wires / DRT-0073)?
 - [ ] Does a DEF artifact exist on disk for every reported P&R "success"?

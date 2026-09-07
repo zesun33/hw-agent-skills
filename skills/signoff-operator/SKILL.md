@@ -22,7 +22,7 @@ This skill guides coding agents through post-P&R physical verification with open
 ## 2. Verdict Discipline
 
 - **DRC**: default is a generated generic width/space smoke deck over the layout's own layers — geometry sanity, NOT foundry signoff. A real verdict needs a PDK rule deck via `deck_file`. Zero findings on the smoke deck means "no gross errors," never "DRC clean."
-- **LVS**: Netgen compares SPICE-vs-SPICE structurally (`nosetup` default). **Property errors count as mismatch** even when topology matches. Pass a PDK setup file for device-class mapping when available.
+- **LVS**: Netgen compares SPICE-vs-SPICE structurally (`nosetup` default). **Property errors count as mismatch** even when topology matches. Pass a PDK setup file for device-class mapping when available. Sky130 full-loop LVS is proven on the counter and the `regfile32x32` scale vehicle when the DEF has real wires (`detail_route`) and a SPICE schematic from synth.
 - **Extraction**: Magic runs on generic technology without a PDK tech file — correct flow plumbing, device values not trustworthy. Require `tech_file` before quoting extracted numbers.
 - **Failure taxonomy**: `INCONCLUSIVE`/tool-error (missing files, unreadable GDS) is reported as tool failure with the stderr tail, never as a clean bill.
 

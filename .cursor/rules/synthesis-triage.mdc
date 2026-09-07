@@ -18,12 +18,12 @@ This skill guides coding agents through analyzing and optimizing logic synthesis
 - **Action**: Fix the RTL by adding default assignments (`output_reg = 0;`) at the entry of the combinational block, or add a missing `default:` branch in `case`.
 
 ### 2. Cell Count & Area Analysis (Know Your Target)
-- **FPGA targets** (`ice40`, `xilinx`, `intel`): cells are LUTs/FFs; `areaUm2` does not apply. `sky130` without a baked PDK errors honestly — use `nangate45` for ASIC-area answers.
+- **FPGA targets** (`ice40`, `xilinx`, `intel`): cells are LUTs/FFs; `areaUm2` does not apply. `sky130` needs `MCP_YOSYS_PDK_ROOT` (volare cache) and then reports `areaUm2` on `sky130_fd_sc_hd`; without a PDK it errors honestly. Use `nangate45` when no Sky130 PDK is mounted.
 - **Nangate45**: `areaUm2` (stat-JSON `area`, text fallback) is the tapeout-relevant footprint; track it across RTL changes like cell count.
 - **Equivalence verdicts** (`yosys_equiv`): EQUIVALENT (own netlist proven) / NOT_EQUIVALENT (mutant caught — treat as P0) / INCONCLUSIVE (latch/FF SAT limits — never a pass, escalate to bounded proof).
 
 ### 2b. Netlist Compatibility for OpenROAD (P&R Readiness)
-- **P&R readiness**: OpenROAD 2.0 rejects operator expressions and `output/reg` port redeclarations. Only liberty-mapped netlists (`nangate45`, never bare `generic`) flow into place-and-route; Yosys-side stripping handles the latter automatically.
+- **P&R readiness**: OpenROAD 2.0 rejects operator expressions and `output/reg` port redeclarations. Only liberty-mapped netlists (`nangate45` or `sky130` with `MCP_YOSYS_PDK_ROOT`) flow into place-and-route; Yosys-side stripping handles the latter automatically.
 When evaluating cell reports:
 - **Look-Up Tables (LUTs)**: Combinational complexity. A sudden explosion in LUT count indicates deep nested muxes, unrolled large loops, or wide arithmetic operations.
 - **Flip-Flops (FDRE / DFF)**: Sequential state registers. Count should exactly match the number of registered state bits in the RTL.
