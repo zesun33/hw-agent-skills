@@ -13,10 +13,13 @@ This skill guides coding agents through navigating and automating open-source di
 ## 1. The Physical Design Flow Pipeline
 
 ```text
-[RTL Code (.v)] 
+[RTL Code (.v) + asserts guarded by `ifdef FORMAL`] 
        │
-       ▼  Step 1: Synthesis (Yosys)
-[Gate-level Netlist]
+       ▼  Step 0: Formal lint + prove (SymbiYosys smtbmc+z3, -DFORMAL)
+[PROVEN properties]
+       │
+       ▼  Step 1: Synthesis (Yosys, liberty-mapped nangate45 for P&R)
+[Gate-level Netlist without operator expressions or port redeclarations]
        │
        ▼  Step 2: Floorplanning & IO Placement (OpenROAD / init_floorplan)
 [Die / Core Boundary + Power Grid (PDN)]
@@ -65,6 +68,8 @@ This skill guides coding agents through navigating and automating open-source di
 | :--- | :--- | :--- |
 | **Setup Violation ($WNS < 0$)** | Data path too slow for target clock period | 1. Upsize driving cells along critical path.<br>2. Buffer long wire segments.<br>3. Move cells closer together in placement.<br>4. Pipeline RTL. |
 | **Hold Violation ($Hold\ Slack < 0$)** | Data path faster than clock skew | Insert delay buffers (`clkbuf` or paired inverters) on short data paths. |
+| **Vacuous P&R pass (no DEF written)** | Netlist never linked (e.g. STA-0164) yet exit stayed 0 | Treat missing/empty DEF as failure; fix the netlist or liberty mapping, never the metrics parser. |
+| **Generic target + P&R requested** | Operator expressions unreadable downstream | Fail fast: re-synthesize with `nangate45` (or supply a liberty) instead of running a vacuous flow. |
 | **Routing Congestion** | Too many wires competing for routing tracks | Reduce floorplan target utilization or increase die area. |
 | **Antenna Violation** | Long metal wire accumulates charge during fabrication | Insert antenna diodes near input gates. |
 
@@ -76,4 +81,7 @@ This skill guides coding agents through navigating and automating open-source di
 - [ ] Did CTS balance clock skew to $< 5\%$ of clock period?
 - [ ] Is detailed routing complete with 0 open nets and 0 shorts?
 - [ ] Does static timing analysis report $WNS \ge 0$ and $TNS = 0$?
-- [ ] Has DRC and LVS passed with zero violations?
+- [ ] Has DRC and LVS passed with zero violations (naming the deck/setup that produced the verdict)?
+- [ ] Were FORMAL-guarded asserts proven (not merely linted) before signoff?
+- [ ] Is the P&R input netlist liberty-mapped (not bare generic)?
+- [ ] Does a DEF artifact exist on disk for every reported P&R "success"?

@@ -11,6 +11,9 @@ GLOBS_MAP = {
     "synthesis-triage": '["*.v", "*.sv", "*.ys", "*.sdc"]',
     "kernel-roofline-explainer": '["*.cu", "*.cuh", "*.py", "*.cpp"]',
     "asic-flow-operator": '["*.tcl", "*.sdc", "*.def", "*.lef", "*.v"]',
+    "formal-operator": '["*.sv", "*.sby", "*.v"]',
+    "signoff-operator": '["*.gds", "*.oas", "*.def", "*.lyrdb", "*.spice"]',
+    "fpga-operator": '["*.pcf", "*.json", "*.asc", "*.bit", "*.bin", "*.v"]',
 }
 
 def parse_frontmatter(content: str):

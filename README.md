@@ -5,7 +5,7 @@
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 [![CI](https://github.com/zesun33/hw-agent-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/zesun33/hw-agent-skills/actions/workflows/ci.yml)
 [![Platform: Universal AI IDEs](https://img.shields.io/badge/platforms-Cursor%20%7C%20Windsurf%20%7C%20Copilot%20%7C%20Claude-blueviolet)](#quickstart)
-[![Skills: 5 Core](https://img.shields.io/badge/skills-5%20verified-brightgreen)](#the-skills-pack)
+[![Skills: 8 Core](https://img.shields.io/badge/skills-8%20verified-brightgreen)](#the-skills-pack)
 
 `hw-agent-skills` gives coding agents and AI IDEs (**Cursor**, **Windsurf**, **GitHub Copilot / OpenAI Codex**, **Claude Code**, **Google Antigravity**, **OpenCode**, **Cline**) the **cognitive engineering rubrics** needed to reason about register-transfer level (RTL) semantics, race conditions, self-checking verification testbenches, logic synthesis metrics, and GPU kernel roofline limits.
 
@@ -32,6 +32,9 @@
 | **`synthesis-triage`** | Logic Synthesis & STA | Interprets Yosys/OpenSTA reports, identifies inferred latches, maps cell counts (LUTs, FFs, DSPs), and triages timing slack (WNS/TNS). | [`skills/synthesis-triage/SKILL.md`](skills/synthesis-triage/SKILL.md) |
 | **`kernel-roofline-explainer`** | GPU & ML Acceleration | Computes Arithmetic Intensity, knee points, and memory-bound vs. compute-bound classification on A100/H100 GPUs. | [`skills/kernel-roofline-explainer/SKILL.md`](skills/kernel-roofline-explainer/SKILL.md) |
 | **`asic-flow-operator`** | Digital ASIC Physical Design | Navigates the OpenROAD/Sky130 flow: Floorplanning, Placement, CTS, Routing, and timing closure remediation. | [`skills/asic-flow-operator/SKILL.md`](skills/asic-flow-operator/SKILL.md) |
+| **`formal-operator`** | Formal Verification | Authors SVA behind `ifdef FORMAL`, runs SymbiYosys BMC/prove, triages PROVEN/FAILED/UNKNOWN verdicts. | [`skills/formal-operator/SKILL.md`](skills/formal-operator/SKILL.md) |
+| **`signoff-operator`** | Physical Verification | GDS stream-out, KLayout DRC smoke, Netgen LVS, Magic extraction with honest verdict discipline. | [`skills/signoff-operator/SKILL.md`](skills/signoff-operator/SKILL.md) |
+| **`fpga-operator`** | FPGA Implementation | iCE40/ECP5 synth, nextpnr P&R, bitstream packing, board presets, dry-run programming safety. | [`skills/fpga-operator/SKILL.md`](skills/fpga-operator/SKILL.md) |
 
 ---
 

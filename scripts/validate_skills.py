@@ -12,6 +12,9 @@ REQUIRED_SKILLS = [
     "synthesis-triage",
     "kernel-roofline-explainer",
     "asic-flow-operator",
+    "formal-operator",
+    "signoff-operator",
+    "fpga-operator",
 ]
 
 def parse_frontmatter(content: str):

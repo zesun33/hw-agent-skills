@@ -3,3 +3,10 @@ __pycache__/
 *$py.class
 .DS_Store
 .cursor/debug-*.log
+
+# Agent memory / local progress (never commit)
+MEMORY.md
+MEMORY.local.md
+.memory/
+*.memory.md
+*.local.md

@@ -47,7 +47,7 @@ run_gate_1() {
 run_gate_2() {
   echo "--- Gate 2: Skill Schema & Frontmatter Validation ---"
   python3 scripts/validate_skills.py || fail 2 "Skill frontmatter validation failed"
-  pass 2 "All 5 skills validated with proper YAML frontmatter"
+  pass 2 "All 8 skills validated with proper YAML frontmatter"
 }
 
 run_gate_3() {
