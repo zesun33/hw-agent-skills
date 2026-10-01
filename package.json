@@ -1,7 +1,12 @@
 {
   "name": "@zesun33/hw-agent-skills",
   "version": "0.1.0",
+  "private": true,
   "description": "Portable agent skills and rubrics for hardware engineering and ML systems",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zesun33/hw-agent-skills.git"
+  },
   "scripts": {
     "validate": "python3 scripts/validate_skills.py",
     "export": "python3 scripts/export_cursor_rules.py",

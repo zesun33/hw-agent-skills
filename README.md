@@ -9,6 +9,8 @@
 
 `hw-agent-skills` gives coding agents and AI IDEs (**Cursor**, **Windsurf**, **GitHub Copilot / OpenAI Codex**, **Claude Code**, **Google Antigravity**, **OpenCode**, **Cline**) the **cognitive engineering rubrics** needed to reason about register-transfer level (RTL) semantics, race conditions, self-checking verification testbenches, logic synthesis metrics, and GPU kernel roofline limits.
 
+This repository is distributed as source files and is not an npm package. Copy or export the skills for the target IDE using the commands below; the npm packages in this portfolio are the MCP servers and `@zesun33/create-hw-agent` scaffold.
+
 ---
 
 ## ⚡ Quick Tour: Why Coding Agents Need `hw-agent-skills`
