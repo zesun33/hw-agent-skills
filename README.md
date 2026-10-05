@@ -1,5 +1,26 @@
 # @zesun33/hw-agent-skills
 
+<!-- BEGIN GENERATED PROJECT GUIDE -->
+
+## Purpose and first steps
+
+Apply hardware-review and verification rubrics through coding-agent instruction files.
+
+**Who it is for:** Engineers guiding a coding agent through RTL review, verification, or kernel analysis.
+
+**First task:** Read the RTL reviewer rubric, then apply it to a clocked Verilog block.
+
+**What to expect:** A concrete review checklist; copy or export the source files for your client.
+
+**Current scope:** Eight instruction/rubric packs. These guide review behavior; executing EDA commands requires separate tools.
+
+**Start here:** [RTL review rubric](skills/rtl-reviewer/SKILL.md).
+
+**Related projects:** [mcp-rtl-review](https://github.com/zesun33/mcp-rtl-review), [mcp-verilog](https://github.com/zesun33/mcp-verilog), [kernel-forge](https://github.com/zesun33/kernel-forge).
+
+[Choose another project](https://github.com/zesun33/personal-projects/blob/main/GETTING_STARTED.md).
+<!-- END GENERATED PROJECT GUIDE -->
+
 > Portable AI agent skills, rubrics, and system prompts for digital hardware design and ML systems engineering.
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
